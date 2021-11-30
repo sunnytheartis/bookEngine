@@ -4,12 +4,14 @@ import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
-
+  const [deleteBook] = useMutation(REMOVE_BOOK)
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
+
 
   useEffect(() => {
     const getUserData = async () => {
@@ -45,7 +47,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      const {data} = await deleteBook({variables: {bookId}});
 
       if (!response.ok) {
         throw new Error('something went wrong!');
