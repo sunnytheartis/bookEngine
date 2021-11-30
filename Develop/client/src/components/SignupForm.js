@@ -29,7 +29,7 @@ const SignupForm = () => {
     }
 
     try {
-      const response = await useMutation(ADD_USER)({variables:{userFormData}})
+      const {data} = await login({variables:{...userFormData}});
 
       if (!response.ok) {
         throw new Error('something went wrong!');
